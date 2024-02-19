@@ -141,7 +141,6 @@ class HBNBCommand(cmd.Cmd):
                 params[key] = value
             else:
                 print(f"Skipping invalid parameter: {param}")
-        print(params)
         new_instance = HBNBCommand.classes[args[0]](**params)
         storage.save()
         print(new_instance.id)
