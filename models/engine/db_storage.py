@@ -12,6 +12,7 @@ from models.place import Place
 from models.review import Review
 from models.state import State
 
+
 class DBStorage:
     """DB Storage class"""
     __engine = None
@@ -26,7 +27,7 @@ class DBStorage:
         )
         self.__engine = create_engine(connection_string, pool_pre_ping=True)
         self.__session = scoped_session(sessionmaker(bind=self.__engine,
-                                       expire_on_commit=False))
+                                        expire_on_commit=False))
         if os.getenv('HBNB_ENV') == 'test':
             Base.metadata.drop_all(self.__engine)
 
@@ -48,10 +49,8 @@ class DBStorage:
         classes = {cls: class_instance}
 
         for class_name, class_instance in classes.items():
-            print(f"Processing class: {class_name}, class_instance: {class_instance}")
             if class_instance:
                 query_result = self.__session.query(class_instance).all()
-                print(f"Query for {class_instance}: {query_result}")
                 for obj in query_result:
                     key = "{}.{}".format(class_name, obj.id)
                     all_objects[key] = obj
@@ -70,7 +69,7 @@ class DBStorage:
             print(f"Error committing changes: {e}")
             self.__session.rollback()
             raise
-    
+
     def delete(self, obj=None):
         """Delete from the current database session if obj is not None"""
         if obj:
@@ -79,6 +78,5 @@ class DBStorage:
     def reload(self):
         """Create all tables in the database and initialize a new session"""
         Base.metadata.create_all(self.__engine)
-        print("Tables created successfully.")
         self.__session = scoped_session(sessionmaker(bind=self.__engine,
                                         expire_on_commit=False))

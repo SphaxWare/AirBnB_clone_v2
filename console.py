@@ -114,9 +114,6 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
-    def do_reload(self, args):
-        storage.reload()
-
     def do_create(self, args):
         """ Create an object of any class"""
         args = args.split()
@@ -142,8 +139,6 @@ class HBNBCommand(cmd.Cmd):
                     # Integer: Convert to int by default
                     value = int(value)
                 params[key] = value
-            else:
-                print(f"Skipping invalid parameter: {param}")
         new_instance = HBNBCommand.classes[args[0]](**params)
         storage.reload()
         storage.new(new_instance)
