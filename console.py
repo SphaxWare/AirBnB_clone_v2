@@ -34,7 +34,7 @@ class HBNBCommand(cmd.Cmd):
     def preloop(self):
         """Prints if isatty is false"""
         if not sys.__stdin__.isatty():
-            print('(hbnb)')
+            print('(hbnb) ', end="")
 
     def precmd(self, line):
         """Reformat command line for advanced command syntax.
@@ -131,7 +131,7 @@ class HBNBCommand(cmd.Cmd):
                 # String
                 if value.startswith('"') and value.endswith('"'):
                     value = value[1:-1]
-                    value = value.replace('_', ' ').replace('\\"', '"')
+                    value = value.replace('_', ' ').replace('"', '')
                 elif '.' in value:
                     # Float: Convert to float if it contains a dot
                     value = float(value)
@@ -225,10 +225,11 @@ class HBNBCommand(cmd.Cmd):
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            print_list = [str(obj) for key, obj in storage.all(args).items()]
+            print_list = [str(obj) for obj in storage.all(args).values()]
         else:
-            print_list = [str(obj) for key, obj in storage.all().items()]
-        print(f'{self.prompt} {print_list}')
+            print_list = [str(obj) for obj in storage.all(args).values()]
+        print_list = [item.replace('"', '') for item in print_list]
+        print(print_list)
 
     def help_all(self):
         """ Help information for the all command """
