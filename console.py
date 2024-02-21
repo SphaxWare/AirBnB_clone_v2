@@ -227,7 +227,7 @@ class HBNBCommand(cmd.Cmd):
                 return
             print_list = [str(obj) for obj in storage.all(args).values()]
         else:
-            print_list = [str(obj) for obj in storage.all(args).values()]
+            print_list = [str(obj) for obj in storage.all().values()]
         print_list = [item.replace('"', '') for item in print_list]
         print(print_list)
 
