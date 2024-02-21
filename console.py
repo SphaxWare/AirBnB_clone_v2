@@ -228,7 +228,6 @@ class HBNBCommand(cmd.Cmd):
             print_list = [str(obj) for obj in storage.all(args).values()]
         else:
             print_list = [str(obj) for obj in storage.all().values()]
-        print_list = [item.replace('"', '') for item in print_list]
         print(print_list)
 
     def help_all(self):
