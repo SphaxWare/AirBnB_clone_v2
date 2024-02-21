@@ -21,3 +21,8 @@ class Place(BaseModel, Base):
     longitude = Column(Float, nullable=True)
 
     user = relationship('User', back_populates='places')
+    reviews = relationship('Review', cascade='all, delete-orphan', backref='place')
+    @property
+    def reviews(self):
+        """Getter attribute to return the list of Review instances with place_id equals to the current Place.id"""
+        return [review for review in models.storage.all(Review).values() if review.place_id == self.id]
