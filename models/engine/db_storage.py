@@ -64,7 +64,6 @@ class DBStorage:
         """Commit all changes of the current database session"""
         try:
             self.__session.commit()
-            print("Changes committed successfully.")
         except Exception as e:
             print(f"Error committing changes: {e}")
             self.__session.rollback()
