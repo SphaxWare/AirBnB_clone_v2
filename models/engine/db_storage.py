@@ -28,6 +28,7 @@ class DBStorage:
         self.__engine = create_engine(connection_string, pool_pre_ping=True)
         self.__session = scoped_session(sessionmaker(bind=self.__engine,
                                         expire_on_commit=False))
+        Base.metadata.create_all(self.__engine)
         if os.getenv('HBNB_ENV') == 'test':
             Base.metadata.drop_all(self.__engine)
 
