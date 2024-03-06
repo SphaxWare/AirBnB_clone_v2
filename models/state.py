@@ -17,7 +17,7 @@ class State(BaseModel, Base):
             back_populates="state",
             cascade="all, delete, delete-orphan",
         )
-    if os.getenv('HBNB_TYPE_STORAGE') == 'file':
+    else:
         @property
         def cities(self):
             """Getter attribute for cities in FileStorage"""
