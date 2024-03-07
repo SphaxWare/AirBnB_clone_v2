@@ -31,11 +31,11 @@ def do_deploy(archive_path):
         archive_filename = archive_path.split('/')[-1]
         release_path = '/data/web_static/releases/{}'.format(
                               archive_filename.split('.')[0])
-        run('mkdir -p {}'.format(release_path))
+        run('mkdir -p {}/'.format(release_path))
         run('tar -xzf /tmp/{} -C {}'.format(archive_filename, release_path))
 
         # Move contents to the proper location
-        run('mv {}/web_static/* {}'.format(release_path, release_path))
+        run('mv {}/web_static/* {}/'.format(release_path, release_path))
 
         # Remove unnecessary directories
         run('rm -rf {}/web_static'.format(release_path))
@@ -48,7 +48,7 @@ def do_deploy(archive_path):
         run('rm -rf {}'.format(current_path))
 
         # Create a new symbolic link
-        run('ln -s {} {}'.format(release_path, current_path))
+        run('ln -s {}/ {}'.format(release_path, current_path))
 
         return True
     except Exception as e:
