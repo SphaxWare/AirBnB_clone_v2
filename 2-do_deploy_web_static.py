@@ -17,31 +17,39 @@ def do_deploy(archive_path):
     """
     if exists(archive_path) is False:
         return False
-    file = archive_path.split("/")[-1]
-    name = file.split(".")[0]
+    arch_file = archive_path.split('/')[-1]
+    arch_name = arch_file.split('.')[0]
 
-    if put(archive_path, "/tmp/{}".format(file)).failed is True:
+    # First: Upload the archive to the server
+    if put(archive_path, '/tmp/').failed:
         return False
-    if run("rm -rf /data/web_static/releases/{}/".
-           format(name)).failed is True:
+
+    # Second: Uncompress the archive
+    if run('mkdir -p /data/web_static/releases/{}'.format(arch_name)).failed:
         return False
-    if run("mkdir -p /data/web_static/releases/{}/".
-           format(name)).failed is True:
+
+    if run('tar -xvzf /tmp/{} -C /data/web_static/releases/{}'.
+            format(arch_file, arch_name)).failed:
         return False
-    if run("tar -xzf /tmp/{} -C /data/web_static/releases/{}/".
-           format(file, name)).failed is True:
+
+    # Third: Delete remote archive & recreate symbolic link
+    if run('rm /tmp/{}'.format(arch_file)).failed:
         return False
-    if run("rm /tmp/{}".format(file)).failed is True:
+
+    if run('mv /data/web_static/releases/{}/web_static/* \
+            /data/web_static/releases/{}/'.format(
+                arch_name, arch_name)).failed:
+                return False
+
+    if run('rm -rf /data/web_static/releases/{}/web_static'.
+            format(arch_name)).failed:
         return False
-    if run("mv /data/web_static/releases/{}/web_static/* "
-           "/data/web_static/releases/{}/".format(name, name)).failed is True:
+
+    if run('rm -rf /data/web_static/current').failed:
         return False
-    if run("rm -rf /data/web_static/releases/{}/web_static".
-           format(name)).failed is True:
+
+    if run('ln -sf /data/web_static/releases/{}/ /data/web_static/current'.
+            format(arch_name)).failed:
         return False
-    if run("rm -rf /data/web_static/current").failed is True:
-        return False
-    if run("ln -s /data/web_static/releases/{}/ /data/web_static/current".
-           format(name)).failed is True:
-        return False
+
     return True
