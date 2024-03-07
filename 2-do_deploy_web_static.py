@@ -20,7 +20,7 @@ def do_deploy(archive_path):
     Returns:
         bool: True if all operations are successful, False otherwise.
     """
-    if not exists(archive_path):
+    if not os.path.exists(archive_path):
         return False
 
     try:
