@@ -22,7 +22,6 @@ def do_deploy(archive_path):
         bool: True if all operations are successful, False otherwise.
     """
     if not exists(archive_path):
-        print("Error: The archive does not exist.")
         return False
 
     try:
@@ -52,8 +51,6 @@ def do_deploy(archive_path):
         # Create a new symbolic link
         run('ln -s {} {}'.format(release_path, current_path))
 
-        print("New version deployed!")
         return True
     except Exception as e:
-        print("Error: {}".format(str(e)))
         return False
