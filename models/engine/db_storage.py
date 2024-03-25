@@ -13,7 +13,9 @@ from models.review import Review
 
 
 class DBStorage:
-    """DBStorage class"""
+    """
+    DBStorage class
+    """
     __engine = None
     __session = None
     types = [User, State, City, Amenity, Place, Review]
@@ -29,7 +31,9 @@ class DBStorage:
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
-        """query all objs"""
+        """
+        query all objs and print them
+        """
         _dict = {}
         if cls is None:
             for typ in self.types:
@@ -43,15 +47,21 @@ class DBStorage:
         return _dict
 
     def new(self, obj):
-        """adds an object"""
+        """
+        Adds an object to the db
+        """
         self.__session.add(obj)
 
     def save(self):
-        """commits changes"""
+        """
+        commits changes made
+        """
         self.__session.commit()
 
     def delete(self, obj=None):
-        """deletes obj"""
+        """
+        deletes obj from db
+        """
         if obj:
             self.__session.delete(obj)
 
