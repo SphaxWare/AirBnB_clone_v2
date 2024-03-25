@@ -1,5 +1,5 @@
- #!/usr/bin/python
-""" holds class State"""
+#!/usr/bin/python
+"""class State module"""
 from models.base_model import BaseModel, Base
 import models
 from sqlalchemy import Column, String
