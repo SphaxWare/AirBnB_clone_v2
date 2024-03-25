@@ -23,11 +23,12 @@ class State(BaseModel, Base):
             """initializes state"""
             super().__init__(*args, **kwargs)
 
-    @property
-    def cities(self):
-        """returns Cities instances of current state_id"""
-        city_list = []
-        for city in list(models.storage.all(City).values()):
-            if city.state_id == self.id:
-                city_list.append(city)
-        return city_list
+    if getenv("HBNB_TYPE_STORAGE") != "db":
+        @property
+        def cities(self):
+            """returns Cities instances of current state_id"""
+            city_list = []
+            for city in list(models.storage.all(City).values()):
+                if city.state_id == self.id:
+                    city_list.append(city)
+            return city_list
