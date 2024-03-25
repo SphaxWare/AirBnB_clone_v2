@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """ holds class City"""
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, Integer, String, ForeignKey

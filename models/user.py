@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """ holds class User"""
 from models.base_model import BaseModel, Base
 from models.place import Place
